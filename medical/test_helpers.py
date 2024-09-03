@@ -36,9 +36,8 @@ def create_test_service(category, valid=True, custom_props={}):
         if custom_props:
             Service.objects.filter(id=obj.id).update(**custom_props)
             obj.refresh_from_db()
-        return obj
     else:
-        return Service.objects.create(
+        obj = Service.objects.create(
             **{
                 "maximum_amount": 5000,
                 "code": code,
@@ -55,6 +54,9 @@ def create_test_service(category, valid=True, custom_props={}):
                 **custom_props
             }
         )
+    # reseting custom props to avoid having it in next calls
+    custom_props = {}
+    return obj
 
 
 def create_test_item(item_type, valid=True, custom_props={}):
@@ -66,9 +68,8 @@ def create_test_item(item_type, valid=True, custom_props={}):
         if custom_props:
             Item.objects.filter(id=obj.id).update(**custom_props)
             obj.refresh_from_db()
-        return obj
     else:
-        return Item.objects.create(
+        obj = Item.objects.create(
             **{
                 "quantity":1,
                 "maximum_amount":225000,
@@ -84,3 +85,6 @@ def create_test_item(item_type, valid=True, custom_props={}):
                 **custom_props
             }
         )
+    # reseting custom props to avoid having it in next calls
+    custom_props = {}
+    return obj
