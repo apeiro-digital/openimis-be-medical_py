@@ -113,6 +113,7 @@ class MedicalGQLTestCase(openIMISGraphQLTestCase):
                         node {
                             id
                             name
+                            code
                         }
                     }
                 }
@@ -146,6 +147,7 @@ class MedicalGQLTestCase(openIMISGraphQLTestCase):
                         node {
                             id
                             name
+                            code
                         }
                     }
                 }

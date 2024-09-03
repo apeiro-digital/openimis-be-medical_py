@@ -1,4 +1,23 @@
-from medical.models import Service, Item
+from medical.models import Service, Item, Diagnosis
+
+
+def create_test_diagnosis(custom_props={}):
+    diag = None
+    if 'code' in custom_props:
+        diag_id = custom_props.get('id')     
+        diag = Diagnosis.objects.filter(id=diag_id).first()
+    if not diag and 'code' in custom_props:
+        code = custom_props.get('code')     
+        diag = Diagnosis.objects.filter(code=code).first()
+    if 'audit_user_id' not in custom_props:
+        custom_props['audit_user_id'] = 1
+    if 'code' not in custom_props:
+        custom_props['code'] = 'diag1'
+    if 'name' not in custom_props:
+        custom_props['name'] = 'diagnostic_1'
+    if not diag:
+        diag = Diagnosis.objects.create(**custom_props)
+    return diag
 
 
 def get_service_of_category(category, valid=True):
@@ -53,7 +72,7 @@ def create_test_item(item_type, valid=True, custom_props={}):
             **{
                 "quantity":1,
                 "maximum_amount":225000,
-                "code": "XXX",
+                "code": code,
                 "type": item_type,
                 "name": "Test item",
                 "price": 100,
@@ -62,6 +81,6 @@ def create_test_item(item_type, valid=True, custom_props={}):
                 "validity_from": "2019-06-01",
                 "validity_to": None if valid else "2019-06-01",
                 "audit_user_id": -1,
-                **(custom_props if custom_props else {})
+                **custom_props
             }
         )
