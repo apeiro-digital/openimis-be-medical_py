@@ -1,7 +1,10 @@
 from medical.models import Service, Item, Diagnosis
+import random
 
 
-def create_test_diagnosis(custom_props={}):
+def create_test_diagnosis(custom_props=None):
+    if custom_props is None:
+        custom_props = {}        
     diag = None
     if 'code' in custom_props:
         diag_id = custom_props.get('id')     
@@ -11,10 +14,9 @@ def create_test_diagnosis(custom_props={}):
         diag = Diagnosis.objects.filter(code=code).first()
     if 'audit_user_id' not in custom_props:
         custom_props['audit_user_id'] = 1
-    if 'code' not in custom_props:
-        custom_props['code'] = 'diag1'
-    if 'name' not in custom_props:
-        custom_props['name'] = 'diagnostic_1'
+    ref = str(random.randint(1, 999))
+    custom_props['code'] = custom_props.pop('code', ('D-' + ref))
+    custom_props['name'] = custom_props.pop('name', ('Diagnostic' + ref))
     if not diag:
         diag = Diagnosis.objects.create(**custom_props)
     return diag
@@ -28,9 +30,14 @@ def get_item_of_type(item_type, valid=True):
     return Item.objects.filter(type=item_type).filter(validity_to__isnull=valid).first()
 
 
-def create_test_service(category, valid=True, custom_props={}):
-    custom_props = {k: v for k, v in custom_props.items() if hasattr(Service, k)} 
-    code = custom_props.pop('code', ('TST-' + category))     
+def create_test_service(category, valid=True, custom_props=None):
+    if custom_props is None:
+        custom_props = {}
+    else:
+        custom_props = {k: v for k, v in custom_props.items() if hasattr(Service, k)}
+    ref = str(random.randint(1, 999))
+    code = custom_props.pop('code', ('TS-' + ref))
+    name = custom_props.pop('name', ('test S service ' + ref))
     obj = Service.objects.filter(code=code, validity_to__isnull=valid).first()
     if obj is not None:
         if custom_props:
@@ -42,7 +49,7 @@ def create_test_service(category, valid=True, custom_props={}):
                 "maximum_amount": 5000,
                 "code": code,
                 "category": category,
-                "name": "Test service " + category,
+                "name": name,
                 "type": Service.TYPE_CURATIVE,
                 "level": 1,
                 "price": 100,
@@ -55,13 +62,15 @@ def create_test_service(category, valid=True, custom_props={}):
             }
         )
     # reseting custom props to avoid having it in next calls
-    custom_props = {}
     return obj
 
 
-def create_test_item(item_type, valid=True, custom_props={}):
-    custom_props = {k: v for k, v in custom_props.items() if hasattr(Item, k)} 
-    code = custom_props.pop('code', 'XXX')
+def create_test_item(item_type, valid=True, custom_props=None):
+    if custom_props is None:
+        custom_props = {}
+    else:
+        custom_props = {k: v for k, v in custom_props.items() if hasattr(Item, k)} 
+    code = custom_props.pop('code', ('TI-' + str(random.randint(1, 999))))  
         
     obj = Item.objects.filter(code=code, validity_to__isnull=valid).first()
     if obj is not None:
@@ -85,6 +94,5 @@ def create_test_item(item_type, valid=True, custom_props={}):
                 **custom_props
             }
         )
-    # reseting custom props to avoid having it in next calls
-    custom_props = {}
+
     return obj
