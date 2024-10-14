@@ -16,7 +16,7 @@ import datetime
 
 class Diagnosis(core_models.VersionedModel):
     id = models.AutoField(db_column='ICDID', primary_key=True)
-    code = models.CharField(db_column='ICDCode', max_length=6)
+    code = models.CharField(db_column='ICDCode', max_length=8)
     name = models.CharField(db_column='ICDName', max_length=255)
 
     audit_user_id = models.IntegerField(db_column='AuditUserID')
@@ -59,7 +59,7 @@ class ItemOrService:
 class Item(VersionedModel, ItemOrService):
     id = models.AutoField(db_column='ItemID', primary_key=True)
     uuid = models.CharField(db_column='ItemUUID', max_length=36, default=uuid.uuid4, unique=True)
-    code = models.CharField(db_column='ItemCode', max_length=6)
+    code = models.CharField(db_column='ItemCode', max_length=8)
     name = models.CharField(db_column='ItemName', max_length=100)
     type = models.CharField(db_column='ItemType', max_length=1)
     package = models.CharField(db_column='ItemPackage', max_length=255, blank=True, null=True)
@@ -169,7 +169,7 @@ class Service(VersionedModel, ItemOrService):
                             max_length=36, default=uuid.uuid4, unique=True)
     # legacy_id = models.IntegerField(db_column='LegacyID', blank=True, null=True)
     category = models.CharField(db_column='ServCategory', max_length=1, blank=True, null=True)
-    code = models.CharField(db_column='ServCode', max_length=6)
+    code = models.CharField(db_column='ServCode', max_length=8)
     name = models.CharField(db_column='ServName', max_length=100)
     type = models.CharField(db_column='ServType', max_length=1)
     packagetype = models.CharField(db_column='ServPackageType', choices=PackageTypes.choices, max_length=1, default=PackageTypes.S)

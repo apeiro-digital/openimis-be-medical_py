@@ -16,7 +16,7 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.AutoField(db_column='ICDID', primary_key=True, serialize=False)),
                 ('legacy_id', models.IntegerField(blank=True, db_column='LegacyID', null=True)),
-                ('code', models.CharField(db_column='ICDCode', max_length=6)),
+                ('code', models.CharField(db_column='ICDCode', max_length=8)),
                 ('name', models.CharField(db_column='ICDName', max_length=255)),
                 ('validity_from', core.fields.DateTimeField(db_column='ValidityFrom')),
                 ('validity_to', core.fields.DateTimeField(blank=True, db_column='ValidityTo', null=True)),

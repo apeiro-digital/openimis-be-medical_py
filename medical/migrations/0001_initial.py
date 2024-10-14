@@ -17,7 +17,7 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.AutoField(db_column='ItemID', primary_key=True, serialize=False)),
                 ('legacy_id', models.IntegerField(blank=True, db_column='LegacyID', null=True)),
-                ('code', models.CharField(db_column='ItemCode', max_length=6)),
+                ('code', models.CharField(db_column='ItemCode', max_length=8)),
                 ('name', models.CharField(db_column='ItemName', max_length=100)),
                 ('type', models.CharField(db_column='ItemType', max_length=1)),
                 ('package', models.CharField(blank=True, db_column='ItemPackage', max_length=255, null=True)),
@@ -41,7 +41,7 @@ class Migration(migrations.Migration):
                 ('id', models.AutoField(db_column='ServiceID', primary_key=True, serialize=False)),
                 ('legacy_id', models.IntegerField(blank=True, db_column='LegacyID', null=True)),
                 ('category', models.CharField(blank=True, db_column='ServCategory', max_length=1, null=True)),
-                ('code', models.CharField(db_column='ServCode', max_length=6)),
+                ('code', models.CharField(db_column='ServCode', max_length=8)),
                 ('name', models.CharField(db_column='ServName', max_length=100)),
                 ('type', models.CharField(db_column='ServType', max_length=1)),
                 ('level', models.CharField(db_column='ServLevel', max_length=1)),
